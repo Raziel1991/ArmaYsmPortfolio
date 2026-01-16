@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+
+    <PageTitle>ArmaYsm | DevOps & Game Dev Portfolio</PageTitle>
+
+    <!-- Tailwind + Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Your theme -->
+    <link rel="stylesheet" href="css/armaysm.css" />
+    <script src="js/armaysm.js"></script>
+
+    <ResourcePreloader />
+
+    <!-- Keep Bootstrap if you still use template parts; otherwise you can remove later -->
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["ArmaYsmPortfolio.styles.css"]" />
+
+    <link rel="stylesheet" href="css/armaysm.css" />
+
+    <ImportMap />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet />
+</head>
+
+<body>
+    <Routes />
+    <ReconnectModal />
+    <script src="@Assets["_framework/blazor.web.js"]"></script>
+</body>
+
+</html>

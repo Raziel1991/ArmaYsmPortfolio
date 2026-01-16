@@ -1,0 +1,57 @@
+﻿@using ArmaYsmPortfolio.Services
+@inject PortfolioData Data
+
+<section id="projects" class="py-24 bg-black/30 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-end justify-between gap-6 flex-wrap mb-10">
+            <div>
+                <h2 class="text-3xl font-bold tracking-tighter uppercase scramble-on-hover">Builds</h2>
+                <p class="text-gray-400 mt-2 max-w-2xl">
+                    Real projects. Real outcomes. No placeholder energy.
+                </p>
+            </div>
+            <span class="text-[10px] uppercase tracking-[0.4em] font-bold text-gray-500">
+                DATA-DRIVEN • C# • CLEAN
+            </span>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach (var p in Data.Projects)
+            {
+                <article class="glass p-6 rounded-3xl border border-white/10 hover:border-blue-400/40 transition-all">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-blue-400">@p.Badge</span>
+                        <div class="flex gap-3 text-gray-400">
+                            @if (!string.IsNullOrWhiteSpace(p.GitHubUrl))
+                            {
+                                <a href="@p.GitHubUrl" target="_blank" class="hover:text-white transition" aria-label="GitHub">
+                                    <i class="fab fa-github text-lg"></i>
+                                </a>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(p.DemoUrl))
+                            {
+                                <a href="@p.DemoUrl" target="_blank" class="hover:text-white transition" aria-label="Demo">
+                                    <i class="fas fa-arrow-up-right-from-square"></i>
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold scramble-on-hover">@p.Title</h3>
+                    <p class="text-gray-500 text-sm mt-1">@p.Subtitle</p>
+
+                    <p class="text-gray-400 text-sm mt-4 leading-relaxed">@p.Description</p>
+
+                    <div class="flex flex-wrap gap-2 mt-5">
+                        @foreach (var t in p.Tech)
+                        {
+                            <span class="text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-white/10 text-gray-300">
+                                @t
+                            </span>
+                        }
+                    </div>
+                </article>
+            }
+        </div>
+    </div>
+</section>

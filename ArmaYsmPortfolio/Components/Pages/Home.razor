@@ -1,0 +1,23 @@
+﻿@page "/"
+@using ArmaYsmPortfolio.Components.Sections
+@inject IJSRuntime JS
+
+<NavBar />
+<HeroSection />
+<ArcadeSection />
+<SkillsSection />
+<ProjectsSection />
+<FooterSection />
+
+@code {
+    private bool _initDone;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_initDone)
+        {
+            _initDone = true;
+            await JS.InvokeVoidAsync("ArmaYsm.init");
+        }
+    }
+}

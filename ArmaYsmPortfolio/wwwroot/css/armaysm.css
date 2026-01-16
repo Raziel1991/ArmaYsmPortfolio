@@ -1,0 +1,101 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --neon-purple: #9d50bb;
+    --neon-blue: #00d2ff;
+    --cyber-green: #00ff41;
+    --bg-dark: #0a0a0c;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--bg-dark);
+    color: #e2e8f0;
+    overflow-x: hidden;
+}
+
+.mono {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-gradient {
+    background: radial-gradient(circle at 50% 50%, rgba(157, 80, 187, 0.15) 0%, transparent 70%);
+}
+
+/* Game Styles */
+#game-container {
+    width: 100%;
+    height: 400px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 2px solid #333;
+}
+
+#player {
+    width: 40px;
+    height: 40px;
+    background: var(--neon-blue);
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    border-radius: 4px;
+    box-shadow: 0 0 20px var(--neon-blue);
+    transition: bottom 0.1s;
+}
+
+.obstacle {
+    width: 30px;
+    height: 30px;
+    background: #ff4b2b;
+    position: absolute;
+    bottom: 20px;
+    right: -50px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px #ff4b2b;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyber-green);
+    font-size: 1.5rem;
+}
+
+#game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none;
+    z-index: 20;
+}
+
+.scanline::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 255, 65, 0.05) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.scramble-on-hover {
+    display: inline-block;
+    cursor: pointer;
+}
