@@ -90,6 +90,16 @@
 
 
     function initAmbientGlitch() {
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top < window.innerHeight &&
+                rect.bottom > 0 &&
+                rect.left < window.innerWidth &&
+                rect.right > 0
+            );
+        }
+
         function ambientGlitch() {
             const allNodes = document.querySelectorAll('h1, h2, h3, p, a');
             if (!allNodes || allNodes.length === 0) {
@@ -97,11 +107,19 @@
                 return;
             }
 
-            const targetNode = allNodes[Math.floor(Math.random() * allNodes.length)];
-            if (targetNode && !targetNode.classList.contains('scramble-on-hover')) {
-                const original = targetNode.innerText;
-                const fx = new TextScramble(targetNode);
-                fx.setText(original);
+            // Filter nodes: must be in viewport and not inside footer
+            const visibleNodes = Array.from(allNodes).filter((node) => {
+                const isInFooter = node.closest('#contact') !== null;
+                return !isInFooter && isInViewport(node);
+            });
+
+            if (visibleNodes.length > 0) {
+                const targetNode = visibleNodes[Math.floor(Math.random() * visibleNodes.length)];
+                if (targetNode && !targetNode.classList.contains('scramble-on-hover')) {
+                    const original = targetNode.innerText;
+                    const fx = new TextScramble(targetNode);
+                    fx.setText(original);
+                }
             }
 
             setTimeout(ambientGlitch, Math.random() * 5000 + 3000);
