@@ -100,6 +100,11 @@
             );
         }
 
+        function hasOnlyTextContent(element) {
+            // Skip elements that have child elements (formatted content)
+            return element.children.length === 0;
+        }
+
         function ambientGlitch() {
             const allNodes = document.querySelectorAll('h1, h2, h3, p, a');
             if (!allNodes || allNodes.length === 0) {
@@ -107,25 +112,28 @@
                 return;
             }
 
-            // Filter nodes: must be in viewport and not inside footer
+            // Filter nodes: must be in viewport, not inside footer, and only plain text
             const visibleNodes = Array.from(allNodes).filter((node) => {
                 const isInFooter = node.closest('#contact') !== null;
-                return !isInFooter && isInViewport(node);
+                return !isInFooter && isInViewport(node) && hasOnlyTextContent(node);
             });
 
             if (visibleNodes.length > 0) {
                 const targetNode = visibleNodes[Math.floor(Math.random() * visibleNodes.length)];
                 if (targetNode && !targetNode.classList.contains('scramble-on-hover')) {
-                    const original = targetNode.innerText;
+                    const originalHTML = targetNode.innerHTML; // Store original HTML
+                    const originalText = targetNode.innerText;
                     const fx = new TextScramble(targetNode);
-                    fx.setText(original);
+                    fx.setText(originalText).then(() => {
+                        targetNode.innerHTML = originalHTML; // Restore original formatting
+                    });
                 }
             }
 
             setTimeout(ambientGlitch, Math.random() * 5000 + 3000);
         }
 
-        setTimeout(ambientGlitch, 2000);
+        setTimeout(ambientGlitch, 20);
     }
 
     function initSmoothScroll() {
