@@ -1,5 +1,7 @@
-﻿<nav class="fixed w-full z-50 px-6 py-4">
-    <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex justify-between items-center">
+﻿@rendermode InteractiveServer
+
+<nav class="fixed w-full z-50 px-4 sm:px-6 py-4">
+    <div class="max-w-7xl mx-auto glass rounded-2xl px-4 sm:px-6 py-3 flex justify-between items-center">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 bg-gradient-to-tr from-purple-600 to-blue-400 rounded-lg flex items-center justify-center font-bold text-white">
                 <i class="fas fa-terminal"></i>
@@ -9,6 +11,7 @@
             </span>
         </div>
 
+        <!-- Desktop Navigation -->
         <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
             <a href="#home" class="hover:text-blue-400 transition scramble-on-hover">System</a>
             <a href="#skills" class="hover:text-blue-400 transition scramble-on-hover">Stack</a>
@@ -16,8 +19,186 @@
             <a href="#projects" class="hover:text-blue-400 transition scramble-on-hover">Builds</a>
         </div>
 
-        <a href="#contact" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-2.5 rounded-full uppercase tracking-tighter transition shadow-lg shadow-blue-900/20 scramble-on-hover">
+        <!-- Desktop CTA -->
+        <a href="#contact" class="hidden md:block bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-2.5 rounded-full uppercase tracking-tighter transition shadow-lg shadow-blue-900/20 scramble-on-hover">
             Initiate Contact
         </a>
+
+        <!-- Animated Hamburger Button -->
+        <button @onclick="ToggleMenu" 
+                class="hamburger-container md:hidden" 
+                aria-label="Toggle menu" 
+                aria-expanded="@isMenuOpen">
+            <div class="hamburger @(isMenuOpen ? "open" : "")">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
     </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav @(isMenuOpen ? "open" : "") md:hidden">
+        <div class="max-w-7xl mx-auto glass rounded-2xl px-4 py-4 mt-2">
+            <div class="flex flex-col space-y-2 text-sm font-medium uppercase tracking-widest">
+                <a href="#home" @onclick="CloseMenu" class="nav-item mobile-link" style="--delay: 0.1s">
+                    <i class="fas fa-home w-6"></i> System
+                </a>
+                <a href="#skills" @onclick="CloseMenu" class="nav-item mobile-link" style="--delay: 0.15s">
+                    <i class="fas fa-layer-group w-6"></i> Stack
+                </a>
+                <a href="#arcade" @onclick="CloseMenu" class="nav-item mobile-link" style="--delay: 0.2s">
+                    <i class="fas fa-gamepad w-6"></i> Arcade
+                </a>
+                <a href="#projects" @onclick="CloseMenu" class="nav-item mobile-link" style="--delay: 0.25s">
+                    <i class="fas fa-code w-6"></i> Builds
+                </a>
+                <a href="#contact" @onclick="CloseMenu" class="nav-item mt-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-full uppercase tracking-tighter transition text-center" style="--delay: 0.3s">
+                    Initiate Contact
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    @if (isMenuOpen)
+    {
+        <div class="overlay" @onclick="CloseMenu"></div>
+    }
 </nav>
+
+<style>
+    /* Hamburger Container */
+    .hamburger-container {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 50%;
+        background: transparent;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .hamburger-container:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Hamburger Lines */
+    .hamburger {
+        width: 24px;
+        height: 18px;
+        position: relative;
+    }
+
+    .hamburger span {
+        display: block;
+        position: absolute;
+        height: 2.5px;
+        width: 100%;
+        border-radius: 2px;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: 0.25s ease-in-out;
+        background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
+    }
+
+    .hamburger span:nth-child(1) {
+        top: 0;
+    }
+
+    .hamburger span:nth-child(2) {
+        top: 8px;
+    }
+
+    .hamburger span:nth-child(3) {
+        top: 16px;
+    }
+
+    /* Hamburger Open State - Transform to X */
+    .hamburger.open span:nth-child(1) {
+        top: 8px;
+        transform: rotate(135deg);
+    }
+
+    .hamburger.open span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    .hamburger.open span:nth-child(3) {
+        top: 8px;
+        transform: rotate(-135deg);
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1),
+                    opacity 0.3s ease,
+                    transform 0.3s ease;
+    }
+
+    .mobile-nav.open {
+        max-height: 400px;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Mobile Links */
+    .mobile-link {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px;
+        color: #e2e8f0;
+        border-radius: 12px;
+        transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+    }
+
+    .mobile-link:hover {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        transform: translateX(5px);
+    }
+
+    /* Staggered Animation for Nav Items */
+    .nav-item {
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition-delay: var(--delay, 0s);
+    }
+
+    .mobile-nav.open .nav-item {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Overlay */
+    .overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+
+@code {
+    private bool isMenuOpen = false;
+
+    private void ToggleMenu() => isMenuOpen = !isMenuOpen;
+    private void CloseMenu() => isMenuOpen = false;
+}
