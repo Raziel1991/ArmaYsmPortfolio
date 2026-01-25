@@ -24,9 +24,9 @@
             Initiate Contact
         </a>
 
-        <!-- Animated Hamburger Button -->
+        <!-- Animated Hamburger Button - Only visible on mobile -->
         <button @onclick="ToggleMenu" 
-                class="hamburger-container md:hidden" 
+                class="flex md:hidden hamburger-btn" 
                 aria-label="Toggle menu" 
                 aria-expanded="@isMenuOpen">
             <div class="hamburger @(isMenuOpen ? "open" : "")">
@@ -68,12 +68,10 @@
 </nav>
 
 <style>
-    /* Hamburger Container */
-    .hamburger-container {
-        position: relative;
+    /* Hamburger Button */
+    .hamburger-btn {
         width: 40px;
         height: 40px;
-        display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
@@ -83,7 +81,7 @@
         transition: background-color 0.3s ease;
     }
 
-    .hamburger-container:hover {
+    .hamburger-btn:hover {
         background-color: rgba(255, 255, 255, 0.1);
     }
 
@@ -107,93 +105,30 @@
         background: linear-gradient(90deg, #3b82f6 0%, #9333ea 100%);
     }
 
-    .hamburger span:nth-child(1) {
-        top: 0;
-    }
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 8px; }
+    .hamburger span:nth-child(3) { top: 16px; }
 
-    .hamburger span:nth-child(2) {
-        top: 8px;
-    }
-
-    .hamburger span:nth-child(3) {
-        top: 16px;
-    }
-
-    /* Hamburger Open State - Transform to X */
-    .hamburger.open span:nth-child(1) {
-        top: 8px;
-        transform: rotate(135deg);
-    }
-
-    .hamburger.open span:nth-child(2) {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-
-    .hamburger.open span:nth-child(3) {
-        top: 8px;
-        transform: rotate(-135deg);
-    }
+    /* Hamburger Open State */
+    .hamburger.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+    .hamburger.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
 
     /* Mobile Navigation */
-    .mobile-nav {
-        max-height: 0;
-        overflow: hidden;
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1),
-                    opacity 0.3s ease,
-                    transform 0.3s ease;
-    }
-
-    .mobile-nav.open {
-        max-height: 400px;
-        opacity: 1;
-        transform: translateY(0);
-    }
+    .mobile-nav { max-height: 0; overflow: hidden; opacity: 0; transform: translateY(-10px); transition: max-height 0.4s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease, transform 0.3s ease; }
+    .mobile-nav.open { max-height: 400px; opacity: 1; transform: translateY(0); }
 
     /* Mobile Links */
-    .mobile-link {
-        display: flex;
-        align-items: center;
-        padding: 14px 16px;
-        color: #e2e8f0;
-        border-radius: 12px;
-        transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
-    }
+    .mobile-link { display: flex; align-items: center; padding: 14px 16px; color: #e2e8f0; border-radius: 12px; transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; }
+    .mobile-link:hover { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; transform: translateX(5px); }
 
-    .mobile-link:hover {
-        background-color: rgba(59, 130, 246, 0.1);
-        color: #3b82f6;
-        transform: translateX(5px);
-    }
-
-    /* Staggered Animation for Nav Items */
-    .nav-item {
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        transition-delay: var(--delay, 0s);
-    }
-
-    .mobile-nav.open .nav-item {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    /* Staggered Animation */
+    .nav-item { opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; transition-delay: var(--delay, 0s); }
+    .mobile-nav.open .nav-item { opacity: 1; transform: translateY(0); }
 
     /* Overlay */
-    .overlay {
-        position: fixed;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: -1;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @@keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
+    .overlay { position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: -1; animation: fadeIn 0.3s ease; }
+    @@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 
 @code {
