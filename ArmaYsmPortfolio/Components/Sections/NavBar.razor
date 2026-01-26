@@ -1,8 +1,11 @@
 ﻿@rendermode InteractiveServer
 
 <nav class="fixed w-full z-50 px-4 sm:px-6 py-4">
-    <div class="max-w-7xl mx-auto glass rounded-2xl px-4 sm:px-6 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-3">
+    <div class="navbar-glass max-w-7xl mx-auto rounded-2xl px-4 sm:px-6 py-3 flex justify-between items-center">
+        <!-- Ambient Sweep Effect -->
+        <div class="navbar-sweep"></div>
+        
+        <div class="flex items-center space-x-3 relative z-10">
             <div class="w-10 h-10 bg-gradient-to-tr from-purple-600 to-blue-400 rounded-lg flex items-center justify-center font-bold text-white">
                 <i class="fas fa-terminal"></i>
             </div>
@@ -12,7 +15,7 @@
         </div>
 
         <!-- Desktop Navigation -->
-        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
+        <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest relative z-10">
             <a href="#home" class="hover:text-blue-400 transition scramble-on-hover">System</a>
             <a href="#skills" class="hover:text-blue-400 transition scramble-on-hover">Stack</a>
             <a href="#arcade" class="hover:text-blue-400 transition scramble-on-hover">Arcade</a>
@@ -20,13 +23,13 @@
         </div>
 
         <!-- Desktop CTA -->
-        <a href="#contact" class="hidden md:block bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-2.5 rounded-full uppercase tracking-tighter transition shadow-lg shadow-blue-900/20 scramble-on-hover">
+        <a href="#contact" class="hidden md:block bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-2.5 rounded-full uppercase tracking-tighter transition shadow-lg shadow-blue-900/20 scramble-on-hover relative z-10">
             Initiate Contact
         </a>
 
-        <!-- Animated Hamburger Button - Only visible on mobile -->
+        <!-- Animated Hamburger Button -->
         <button @onclick="ToggleMenu" 
-                class="flex md:hidden hamburger-btn" 
+                class="flex md:hidden hamburger-btn relative z-10" 
                 aria-label="Toggle menu" 
                 aria-expanded="@isMenuOpen">
             <div class="hamburger @(isMenuOpen ? "open" : "")">
@@ -51,9 +54,7 @@
                     <i class="fas fa-gamepad w-6"></i> Arcade
                 </a>
                 <a href="#projects" @onclick="CloseMenu" class="nav-item mobile-link" style="--delay: 0.25s">
-                    <i class="fas fa-code w-6"></i> 
-                    
-                    s
+                    <i class="fas fa-code w-6"></i> Builds
                 </a>
                 <a href="#contact" @onclick="CloseMenu" class="nav-item mt-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold px-6 py-3 rounded-full uppercase tracking-tighter transition text-center" style="--delay: 0.3s">
                     Initiate Contact
@@ -70,6 +71,64 @@
 </nav>
 
 <style>
+    /* Navbar Glass with overflow hidden for sweep */
+    .navbar-glass {
+        position: relative;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Ambient Sweep Effect */
+    .navbar-sweep {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(59, 130, 246, 0.03) 25%,
+            rgba(147, 51, 234, 0.15) 50%,
+            rgba(59, 130, 246, 0.03) 75%,
+            transparent 100%
+        );
+        animation: ambientSweep 8s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @@keyframes ambientSweep {
+        0%, 100% {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+        10% {
+            opacity: 1;
+        }
+        45% {
+            transform: translateX(100%);
+            opacity: 1;
+        }
+        50% {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        55% {
+            transform: translateX(100%);
+            opacity: 1;
+        }
+        90% {
+            transform: translateX(-100%);
+            opacity: 1;
+        }
+        95% {
+            opacity: 0;
+        }
+    }
+
     /* Hamburger Button */
     .hamburger-btn {
         width: 40px;
