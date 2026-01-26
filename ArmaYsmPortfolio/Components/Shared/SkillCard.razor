@@ -1,0 +1,15 @@
+<div class="skill-card" style="--accent-color: @AccentColor;">
+    <div class="sweep"></div>
+    <div class="content">
+        <i class="@IconClass text-4xl mb-6 text-gray-600"></i>
+        <h3 class="font-bold text-lg mb-2 scramble-on-hover">@Title</h3>
+        <p class="text-xs text-gray-500 font-bold uppercase tracking-widest">@Subtitle</p>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string IconClass { get; set; } = "fas fa-code";
+    [Parameter] public string Title { get; set; } = "Skill";
+    [Parameter] public string Subtitle { get; set; } = "Description";
+    [Parameter] public string AccentColor { get; set; } = "#3b82f6";
+}
