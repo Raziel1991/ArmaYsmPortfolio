@@ -181,13 +181,27 @@
         flex: none;
         width: calc(50% - 4px);
         height: 120px;
+        overflow: hidden;
     }
 
-    .skill-card::before,
-    .skill-card::after {
+    /* Disable spark border effect on mobile */
+    .skill-card::before {
         display: none;
     }
 
+    /* Keep inner background but simplify */
+    .skill-card::after {
+        inset: 0;
+        border-radius: 0.75rem;
+    }
+
+    /* Disable hover expansion on mobile */
+    .skill-card:hover {
+        flex: none;
+        box-shadow: none;
+    }
+
+    /* Content always horizontal on mobile */
     .card-content {
         transform: rotate(0deg);
         min-width: auto;
@@ -195,19 +209,49 @@
         gap: 0.25rem;
     }
 
+    /* Disable hover content changes */
+    .skill-card:hover .card-content {
+        transform: rotate(0deg);
+        gap: 0.25rem;
+    }
+
     .card-content i {
         font-size: 1.5rem;
+    }
+
+    /* Disable icon hover animation on mobile */
+    .skill-card:hover .card-content i {
+        font-size: 1.5rem;
+        filter: drop-shadow(0 0 5px var(--accent-color));
+        animation: none;
     }
 
     .card-title {
         font-size: 0.7rem;
     }
 
+    /* Disable title hover glow on mobile */
+    .skill-card:hover .card-title {
+        text-shadow: none;
+    }
+
+    /* Always show subtitle on mobile */
     .card-subtitle {
         opacity: 1;
         max-width: none;
         padding-left: 0;
         border-left: none;
         font-size: 0.5rem;
+    }
+
+    /* Disable subtitle hover changes on mobile */
+    .skill-card:hover .card-subtitle {
+        padding-left: 0;
+        border-left: none;
+    }
+
+    /* Disable sweep effect on mobile */
+    .skill-card .sweep-line {
+        display: none;
     }
 }
