@@ -1,113 +1,213 @@
+/* Slim expanding card */
 .skill-card {
-    --card-bg: rgba(15, 15, 20, 0.9);
-    position: relative;
-    height: 220px;
-    background: var(--card-bg);
-    border-radius: 1.5rem;
+    cursor: pointer;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+    border: 1px solid color-mix(in srgb, var(--accent-color) 40%, transparent);
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    white-space: nowrap;
+    position: relative;
 }
 
-.skill-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--accent-color);
-}
-
-/* Rotating Beam Effect */
+/* Animated border glow */
 .skill-card::before {
     content: "";
     position: absolute;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(transparent, var(--accent-color), transparent 20%);
-    animation: rotate 3s linear infinite;
+    inset: -2px;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        var(--accent-color),
+        transparent,
+        var(--accent-color),
+        transparent
+    );
+    background-size: 400% 400%;
+    border-radius: 0.85rem;
+    z-index: -1;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: borderGlow 3s linear infinite;
+    transition: opacity 0.5s ease;
 }
 
 .skill-card:hover::before {
     opacity: 1;
 }
 
-/* Internal Mask */
+/* Inner background mask */
 .skill-card::after {
     content: "";
     position: absolute;
-    inset: 2px;
-    background: var(--card-bg);
-    border-radius: calc(1.5rem - 2px);
-    z-index: 1;
+    inset: 1px;
+    background: linear-gradient(145deg, #1a1a1a, #252525);
+    border-radius: calc(0.75rem - 1px);
+    z-index: 0;
+    transition: background 0.5s ease;
 }
 
-/* Sweep Line Effect */
-.sweep {
+.skill-card:hover::after {
+    background: linear-gradient(145deg, #252525, #303030);
+}
+
+/* Sweep effect on hover */
+.skill-card .sweep-line {
     position: absolute;
-    z-index: 2;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
     background: linear-gradient(
-        90deg, 
-        transparent, 
-        color-mix(in srgb, var(--accent-color) 10%, transparent),
-        var(--accent-color), 
-        color-mix(in srgb, var(--accent-color) 10%, transparent),
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--accent-color) 20%, transparent),
         transparent
     );
-    transition: 0s;
+    z-index: 1;
+    transition: none;
 }
 
-.skill-card:hover .sweep {
+.skill-card:hover .sweep-line {
     left: 100%;
-    transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: left 0.6s ease;
 }
 
-/* Content Layer */
-.content {
-    position: relative;
-    z-index: 10;
+/* Content container */
+.card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-width: 12em;
+    transform: rotate(-90deg);
     text-align: center;
-    padding: 2rem;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 2;
 }
 
-/* Icon hover effect */
-.skill-card:hover .content i {
+/* Icon */
+.card-content i {
+    font-size: 1.25rem;
     color: var(--accent-color);
-    filter: drop-shadow(0 0 10px var(--accent-color));
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent-color) 50%, transparent));
 }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* Title */
+.card-title {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #e5e5e5;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Subtitle - hidden by default */
+.card-subtitle {
+    font-size: 0.65rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: bold;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-left: 0;
+    border-left: 0 solid var(--accent-color);
+}
+
+/* Hover - Expand card */
+.skill-card:hover {
+    flex: 5;
+    box-shadow: 
+        0 0 30px color-mix(in srgb, var(--accent-color) 25%, transparent),
+        0 10px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 color-mix(in srgb, var(--accent-color) 20%, transparent);
+    border-color: var(--accent-color);
+}
+
+/* Hover - Rotate content to horizontal */
+.skill-card:hover .card-content {
+    transform: rotate(0deg);
+    gap: 1rem;
+}
+
+/* Hover - Enlarge icon */
+.skill-card:hover .card-content i {
+    font-size: 2.25rem;
+    filter: drop-shadow(0 0 15px var(--accent-color));
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+/* Hover - Title glow */
+.skill-card:hover .card-title {
+    color: white;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 50%, transparent);
+}
+
+/* Hover - Show subtitle with separator */
+.skill-card:hover .card-subtitle {
+    opacity: 1;
+    max-width: 15em;
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent-color);
+    color: #9ca3af;
+}
+
+/* Animations */
+@keyframes borderGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .skill-card {
-        height: 180px;
+        flex: none;
+        width: calc(50% - 4px);
+        height: 120px;
     }
 
-    .content {
-        padding: 1rem;
+    .skill-card::before,
+    .skill-card::after {
+        display: none;
     }
 
-    .content i {
+    .card-content {
+        transform: rotate(0deg);
+        min-width: auto;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .card-content i {
         font-size: 1.5rem;
-        margin-bottom: 0.75rem;
     }
 
-    .content h3 {
-        font-size: 0.875rem;
+    .card-title {
+        font-size: 0.7rem;
     }
 
-    .content p {
-        font-size: 0.625rem;
+    .card-subtitle {
+        opacity: 1;
+        max-width: none;
+        padding-left: 0;
+        border-left: none;
+        font-size: 0.5rem;
     }
 }

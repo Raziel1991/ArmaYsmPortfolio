@@ -1,0 +1,19 @@
+.skills-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    height: 280px;
+    padding: 8px;
+    background-color: black;
+    border-radius: 1.5rem;
+}
+
+/* Responsive - stack on mobile */
+@media (max-width: 768px) {
+    .skills-container {
+        flex-wrap: wrap;
+        height: auto;
+        gap: 6px;
+    }
+}
