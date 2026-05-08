@@ -1,23 +1,50 @@
-﻿<footer id="contact" class="py-24 border-t border-white/5 bg-[#050505]">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
-        <h2 class="text-4xl md:text-6xl font-bold mb-12 tracking-tighter text-center uppercase scramble-on-hover">
-            Ready to <span class="text-blue-500">Deploy?</span>
-        </h2>
+﻿<footer id="contact" class="py-24 border-t border-white/5 bg-[#050508] relative overflow-hidden">
+    <div class="particle-field"></div>
+    <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
+        <div class="max-w-2xl mx-auto mb-16">
+            <div class="inline-flex items-center gap-2 px-3 py-1 glass rounded-full mb-6 border border-purple-500/20">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-purple-400 mono">$ contact --init</span>
+            </div>
 
-        <div class="flex space-x-6 mb-12">
-            <a href="https://github.com/Raziel1991" target="_blank" class="social-icon github w-14 h-14 glass rounded-full flex items-center justify-center transition-all">
-                <i class="fab fa-github text-xl"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/alfonso-raziel-mendoza-avila-6aaa6992/" target="_blank" class="social-icon linkedin w-14 h-14 glass rounded-full flex items-center justify-center transition-all">
-                <i class="fab fa-linkedin text-xl"></i>
-            </a>
-            <a href="#" class="social-icon email w-14 h-14 glass rounded-full flex items-center justify-center transition-all">
-                <i class="fas fa-envelope text-xl"></i>
-            </a>
+            <h2 class="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">
+                Let's build<br />
+                <span class="gradient-text-purple-blue">something legendary</span>
+            </h2>
+
+            <p class="text-gray-500 mono text-sm mb-10">
+                <span class="text-green-400">PS&gt;</span> Initiate deploy sequence to start a conversation
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="https://github.com/Raziel1991" target="_blank" class="group inline-flex items-center gap-3 px-6 py-3 glass-hover rounded-xl border border-white/10 hover:border-purple-500/30 transition-all">
+                    <i class="fab fa-github text-lg text-gray-400 group-hover:text-white transition-colors"></i>
+                    <span class="mono text-sm text-gray-400 group-hover:text-white transition-colors">GitHub</span>
+                </a>
+                <a href="https://www.linkedin.com/in/alfonso-raziel-mendoza-avila-6aaa6992/" target="_blank" class="group inline-flex items-center gap-3 px-6 py-3 glass-hover rounded-xl border border-white/10 hover:border-blue-500/30 transition-all">
+                    <i class="fab fa-linkedin text-lg text-gray-400 group-hover:text-blue-400 transition-colors"></i>
+                    <span class="mono text-sm text-gray-400 group-hover:text-white transition-colors">LinkedIn</span>
+                </a>
+                <a href="mailto:razielmendozaa@gmail.com" class="group inline-flex items-center gap-3 px-6 py-3 bg-purple-600/10 hover:bg-purple-600/20 rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all">
+                    <i class="fas fa-envelope text-lg text-purple-400"></i>
+                    <span class="mono text-sm text-purple-400">razielmendozaa@gmail.com</span>
+                </a>
+            </div>
         </div>
 
-        <p class="text-gray-600 text-[10px] uppercase tracking-[0.4em] font-bold">
-            Developed by ArmaYsm © @DateTime.Now.Year • Powered by Blazor Logic
-        </p>
+        <div class="section-divider mb-12"></div>
+
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-purple-600 to-blue-400 rounded-lg flex items-center justify-center font-bold text-white text-xs">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <span class="font-bold text-sm tracking-tighter mono">
+                    Arma<span class="text-blue-400">Ysm</span>
+                </span>
+            </div>
+            <p class="text-gray-600 text-[10px] uppercase tracking-[0.3em] font-bold mono">
+                &copy; @DateTime.Now.Year &bull; Built with Blazor &bull; Powered by Caffeine
+            </p>
+        </div>
     </div>
 </footer>
