@@ -23,11 +23,11 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach (var p in Data.Projects)
             {
-                <article class="group glass p-6 rounded-2xl border border-white/[0.06] hover:border-purple-500/20 transition-all duration-500 relative overflow-hidden">
+                <article data-tilt data-project-card data-screenshots='@System.Text.Json.JsonSerializer.Serialize(p.Screenshots)' class="group glass p-6 rounded-2xl border border-white/[0.06] hover:border-purple-500/20 transition-all duration-500 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-purple-500/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                     <div class="relative z-10">
-                        <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center justify-between mb-4 card-links">
                             <span class="status-badge @p.Badge.ToLowerInvariant() mono">
                                 <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
                                 @p.Badge
@@ -56,7 +56,7 @@
                         <div class="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/[0.04]">
                             @foreach (var t in p.Tech)
                             {
-                                <span class="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/[0.03] text-gray-500 mono">
+                                <span class="tech-tag text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md bg-white/[0.03] text-gray-500 mono">
                                     @t
                                 </span>
                             }

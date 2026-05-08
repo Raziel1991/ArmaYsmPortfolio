@@ -1,6 +1,5 @@
 ﻿(function () {
     const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890<>?/[]{}';
-    const hexGlyphs = '0123456789ABCDEF';
     let initialized = false;
 
     class TextScramble {
@@ -160,6 +159,190 @@
         });
     }
 
+    function init3DTilt() {
+        const cards = document.querySelectorAll('[data-tilt]');
+        if (!cards.length) return;
+
+        cards.forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+
+                card.style.setProperty('--tilt-x', `${rotateX}deg`);
+                card.style.setProperty('--tilt-y', `${rotateY}deg`);
+
+                const glowX = (x / rect.width) * 100;
+                const glowY = (y / rect.height) * 100;
+                card.style.setProperty('--glow-x', `${glowX}%`);
+                card.style.setProperty('--glow-y', `${glowY}%`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.setProperty('--tilt-x', '0deg');
+                card.style.setProperty('--tilt-y', '0deg');
+            });
+        });
+    }
+
+    function initProjectPreview() {
+        const cards = document.querySelectorAll('[data-project-card]');
+        if (!cards.length) return;
+
+        let activePreview = null;
+        let cooldown = false;
+
+        cards.forEach((card) => {
+            card.addEventListener('mouseenter', function (e) {
+                if (activePreview || cooldown) return;
+
+                const screenshots = JSON.parse(this.dataset.screenshots || '[]');
+                if (!screenshots.length) return;
+
+                const rect = this.getBoundingClientRect();
+                const clone = this.cloneNode(true);
+                clone.classList.add('preview-card-origin');
+                clone.style.position = 'fixed';
+                clone.style.left = rect.left + 'px';
+                clone.style.top = rect.top + 'px';
+                clone.style.width = rect.width + 'px';
+                clone.style.height = rect.height + 'px';
+                clone.style.zIndex = '10001';
+                clone.style.pointerEvents = 'none';
+                clone.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                clone.style.margin = '0';
+
+                const overlay = document.createElement('div');
+                overlay.className = 'project-preview-overlay';
+                overlay.style.opacity = '0';
+                overlay.style.transition = 'opacity 0.4s ease';
+
+                const orbitRing = document.createElement('div');
+                orbitRing.className = 'orbit-ring';
+
+                const orbitRadius = Math.min(320, window.innerWidth * 0.3, window.innerHeight * 0.3);
+
+                const sizes = [100, 130, 85, 110, 95, 145, 75, 120, 105, 90, 135, 80];
+                screenshots.forEach((shot, i) => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'orbit-bubble';
+                    const size = sizes[i % sizes.length];
+                    bubble.style.width = size + 'px';
+                    bubble.style.height = size + 'px';
+                    bubble.style.left = (-size / 2) + 'px';
+                    bubble.style.top = (-size / 2) + 'px';
+                    bubble.style.setProperty('--orbit-delay', `${i * 0.12}s`);
+                    bubble.style.setProperty('--orbit-index', i);
+                    bubble.style.setProperty('--orbit-count', screenshots.length);
+                    bubble.style.background = shot.Gradient;
+
+                    const angle = (i / screenshots.length) * Math.PI * 2 - Math.PI / 2;
+                    const x = Math.cos(angle) * orbitRadius;
+                    const y = Math.sin(angle) * orbitRadius;
+
+                    bubble.style.setProperty('--orbit-start', `translate(${x * 0.3}px, ${y * 0.3}px) scale(0)`);
+                    bubble.style.setProperty('--orbit-end', `translate(${x}px, ${y}px) scale(1)`);
+
+                    const icon = document.createElement('i');
+                    icon.className = shot.Icon;
+                    icon.style.fontSize = Math.max(1, size / 65) + 'rem';
+                    bubble.appendChild(icon);
+
+                    const label = document.createElement('span');
+                    label.className = 'orbit-label';
+                    label.textContent = shot.Label;
+                    bubble.appendChild(label);
+
+                    requestAnimationFrame(() => {
+                        bubble.classList.add('visible');
+                    });
+
+                    orbitRing.appendChild(bubble);
+
+                    bubble.addEventListener('mouseenter', () => {
+                        bubble.style.setProperty('--orbit-end', `translate(${x}px, ${y}px) scale(1.15)`);
+                        bubble.style.boxShadow = '0 0 40px rgba(168, 85, 247, 0.4)';
+                    });
+                    bubble.addEventListener('mouseleave', () => {
+                        bubble.style.setProperty('--orbit-end', `translate(${x}px, ${y}px) scale(1)`);
+                        bubble.style.boxShadow = '';
+                    });
+                });
+
+                overlay.appendChild(orbitRing);
+                overlay.appendChild(clone);
+                document.body.appendChild(overlay);
+
+                requestAnimationFrame(() => {
+                    overlay.style.opacity = '1';
+
+                    const centerX = window.innerWidth / 2;
+                    const centerY = window.innerHeight / 2;
+                    const targetW = Math.min(420, window.innerWidth * 0.35);
+                    const targetH = targetW * (rect.height / rect.width);
+
+                    clone.style.left = (centerX - targetW / 2) + 'px';
+                    clone.style.top = (centerY - targetH / 2) + 'px';
+                    clone.style.width = targetW + 'px';
+                    clone.style.height = targetH + 'px';
+                    clone.style.transform = 'scale(1.05)';
+                    clone.style.boxShadow = '0 20px 80px rgba(0, 0, 0, 0.6), 0 0 60px rgba(168, 85, 247, 0.15)';
+                    clone.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+                });
+
+                card.classList.add('preview-blur');
+
+                activePreview = { overlay, clone, card };
+            });
+        });
+
+        function dismissPreview() {
+            if (!activePreview) return;
+
+            const { overlay, card } = activePreview;
+            const clone = overlay.querySelector('.preview-card-origin');
+
+            if (clone) {
+                const rect = card.getBoundingClientRect();
+                clone.style.left = rect.left + 'px';
+                clone.style.top = rect.top + 'px';
+                clone.style.width = rect.width + 'px';
+                clone.style.height = rect.height + 'px';
+                clone.style.transform = 'scale(1)';
+                clone.style.boxShadow = '';
+                clone.style.borderColor = '';
+            }
+
+            overlay.style.opacity = '0';
+            card.classList.remove('preview-blur');
+
+            setTimeout(() => {
+                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            }, 500);
+
+            activePreview = null;
+
+            cooldown = true;
+            setTimeout(() => { cooldown = false; }, 800);
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!activePreview) return;
+            const clone = activePreview.overlay.querySelector('.preview-card-origin');
+            if (clone && !clone.contains(e.target)) {
+                dismissPreview();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && activePreview) dismissPreview();
+        });
+    }
+
     function initGame() {
         const player = document.getElementById('player');
         const container = document.getElementById('game-container');
@@ -257,6 +440,8 @@
         initAmbientGlitch();
         initSmoothScroll();
         initParticleField();
+        init3DTilt();
+        initProjectPreview();
         initGame();
     };
 
