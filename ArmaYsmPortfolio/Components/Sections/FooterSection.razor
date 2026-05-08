@@ -15,7 +15,50 @@
                 <span class="text-green-400">PS&gt;</span> Initiate deploy sequence to start a conversation
             </p>
 
-            <div class="flex flex-wrap justify-center gap-4">
+            <form id="contact-form" class="max-w-lg mx-auto text-left">
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <label for="name" class="mono text-xs text-gray-500 uppercase tracking-widest block mb-2">Name</label>
+                        <input type="text" id="name" name="name" required
+                            class="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm mono
+                            focus:outline-none focus:border-purple-500/40 focus:bg-white/[0.05] transition-all
+                            placeholder:text-gray-600" placeholder="Your name" />
+                    </div>
+                    <div>
+                        <label for="email" class="mono text-xs text-gray-500 uppercase tracking-widest block mb-2">Email</label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm mono
+                            focus:outline-none focus:border-purple-500/40 focus:bg-white/[0.05] transition-all
+                            placeholder:text-gray-600" placeholder="your@email.com" />
+                    </div>
+                    <div>
+                        <label for="message" class="mono text-xs text-gray-500 uppercase tracking-widest block mb-2">Message</label>
+                        <textarea id="message" name="message" rows="4" required
+                            class="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-white text-sm mono
+                            focus:outline-none focus:border-purple-500/40 focus:bg-white/[0.05] transition-all
+                            placeholder:text-gray-600 resize-none" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" id="form-submit"
+                    class="w-full bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold px-6 py-3.5 rounded-xl
+                    transition-all shadow-lg shadow-purple-900/20 mono flex items-center justify-center gap-2
+                    disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="submit-text">$ Send Message</span>
+                    <span class="submit-spinner hidden">
+                        <svg class="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                        </svg>
+                    </span>
+                    <span class="submit-done hidden">
+                        <i class="fas fa-check"></i> Sent
+                    </span>
+                </button>
+                <p id="form-status" class="mono text-xs mt-3 text-center hidden"></p>
+            </form>
+
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
                 <a href="https://github.com/Raziel1991" target="_blank" class="group inline-flex items-center gap-3 px-6 py-3 glass-hover rounded-xl border border-white/10 hover:border-purple-500/30 transition-all">
                     <i class="fab fa-github text-lg text-gray-400 group-hover:text-white transition-colors"></i>
                     <span class="mono text-sm text-gray-400 group-hover:text-white transition-colors">GitHub</span>

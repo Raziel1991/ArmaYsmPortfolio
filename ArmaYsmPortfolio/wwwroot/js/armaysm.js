@@ -430,6 +430,79 @@
         window.ArmaYsm.startGame = startGame;
     }
 
+    function initContactForm() {
+        const form = document.getElementById('contact-form');
+        if (!form) return;
+
+        // TODO: Replace with your Formspree endpoint
+        // Sign up free at https://formspree.io and paste your form ID here
+        const FORMSPREE_ID = 'YOUR_FORMSPREE_ID';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('form-submit');
+            const status = document.getElementById('form-status');
+            const submitText = btn.querySelector('.submit-text');
+            const spinner = btn.querySelector('.submit-spinner');
+            const done = btn.querySelector('.submit-done');
+
+            btn.disabled = true;
+            submitText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+            status.classList.add('hidden');
+
+            try {
+                const data = {
+                    name: form.name.value.trim(),
+                    email: form.email.value.trim(),
+                    message: form.message.value.trim()
+                };
+
+                // If no Formspree ID set, simulate success for demo
+                if (FORMSPREE_ID === 'YOUR_FORMSPREE_ID') {
+                    await new Promise(r => setTimeout(r, 1200));
+                    throw new Error('FORMSPREE_NOT_CONFIGURED');
+                }
+
+                const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (!res.ok) throw new Error('NETWORK_ERROR');
+
+                spinner.classList.add('hidden');
+                done.classList.remove('hidden');
+                status.className = 'mono text-xs mt-3 text-green-400';
+                status.textContent = '// Message delivered. I\'ll get back to you soon.';
+                status.classList.remove('hidden');
+                form.reset();
+
+                setTimeout(() => {
+                    done.classList.add('hidden');
+                    submitText.classList.remove('hidden');
+                    btn.disabled = false;
+                }, 3000);
+
+            } catch (err) {
+                spinner.classList.add('hidden');
+                submitText.classList.remove('hidden');
+                btn.disabled = false;
+
+                if (err.message === 'FORMSPREE_NOT_CONFIGURED') {
+                    status.className = 'mono text-xs mt-3 text-amber-400';
+                    status.textContent = '// Formspree not configured yet. Use the email link below instead.';
+                } else {
+                    status.className = 'mono text-xs mt-3 text-red-400';
+                    status.textContent = '// Failed to send. Try the email link below.';
+                }
+                status.classList.remove('hidden');
+            }
+        });
+    }
+
     window.ArmaYsm = window.ArmaYsm || {};
 
     window.ArmaYsm.init = function () {
@@ -442,6 +515,7 @@
         initParticleField();
         init3DTilt();
         initProjectPreview();
+        initContactForm();
         initGame();
     };
 
